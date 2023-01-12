@@ -29,7 +29,8 @@ function ContactMe({}: Props): ReactElement {
 
                <div className='flex flex-col space-y-3'>
                     <h4 className='text-2xl font-semibold text-center py-10 md:text-4xl'>
-                         I have what you need.{" "}
+                         I have what you need.
+                         
                          <span className='underline decoration-[#F7AB0A]'>Let's Talk</span>
                     </h4>
 
