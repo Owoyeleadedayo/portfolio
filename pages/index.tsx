@@ -10,11 +10,11 @@ import Skills from '../components/Skills'
 import WorkExperience from '../components/WorkExperience'
 import styles from '../styles/Home.module.css'
 import { Experience, PageInfo, Social, Skill, Project } from '../typings'
-import { fetchExperiences } from '../utils/fetchExperiences'
-import { fetchPageInfo } from '../utils/fetchPageInfo'
-import { fetchProjects } from '../utils/fetchProjects'
-import { fetchSkills } from '../utils/fetchSkills'
-import { fetchSocials } from '../utils/fetchSocials'
+// import { fetchExperiences } from '../utils/fetchExperiences'
+// import { fetchPageInfo } from '../utils/fetchPageInfo'
+// import { fetchProjects } from '../utils/fetchProjects'
+// import { fetchSkills } from '../utils/fetchSkills'
+// import { fetchSocials } from '../utils/fetchSocials'
 
 type Props = {
      experiences: Experience[];
@@ -73,19 +73,25 @@ const Home = ({ experiences, pageInfo, socials, skills, projects }: Props) => {
 export default Home;
 
 export const getStaticProps: GetStaticProps<Props> = async () => {
-     const pageInfo: PageInfo = await fetchPageInfo();
-     const experiences: Experience[] = await fetchExperiences();
-     const skills: Skill[] = await fetchSkills();
-     const socials: Social[] = await fetchSocials();
-     const projects: Project[] = await fetchProjects();
+     const experiences = await fetch (`${process.env.NEXT_PUBLIC_BASE_URL}/api/getExperience`);
+     const experiencesData = await experiences.json();
+     const skills = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/getSkills`);
+     const skillsData = await skills.json();
+     const socials = await fetch (`${process.env.NEXT_PUBLIC_BASE_URL}/api/getSocials`)
+     const socialsData = await socials.json();
+     const projects = await fetch (`${process.env.NEXT_PUBLIC_BASE_URL}/api/getProjects`);
+     const projectsData = await projects.json();
+
+     const pageInfo = await fetch (`${process.env.NEXT_PUBLIC_BASE_URL}/api/getPageInfo`);
+     const pageInfoData = await pageInfo.json();
 
      return {
           props: {
-               pageInfo,
-               experiences,
-               projects,
-               skills,
-               socials,
+               pageInfo: pageInfoData.pageInfo,
+               experiences: experiencesData.experiences,
+               projects: projectsData.projects,
+               skills: skillsData.skills,
+               socials: socialsData.socials,
           },
      };
 };
